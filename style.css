@@ -31,8 +31,6 @@
   --transition: 0.35s cubic-bezier(.22,.68,0,1.2);
 }
 
-/* BUG FIX #1 — scroll-behavior: smooth precisa ser desativado em prefers-reduced-motion.
-   Movido para cá e será sobrescrito no bloco de reduced-motion no final. */
 html { scroll-behavior: smooth; }
 
 body {
@@ -118,7 +116,6 @@ body {
 .nav-link:hover { color: var(--gold); }
 .nav-link:hover::after { width: 100%; }
 
-/* BUG FIX #2 — focus-visible para acessibilidade de teclado nos links de navegação */
 .nav-link:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 4px;
@@ -187,8 +184,6 @@ body {
   font-family: var(--font-display);
   font-size: clamp(3.2rem, 10vw, 8rem);
   font-weight: 900;
-  /* BUG FIX #3 — line-height: 1.0 cortava descenders do Playfair Display em mixed case.
-     Corrigido para 1.05 que evita clipping sem alterar o visual de display. */
   line-height: 1.05;
   letter-spacing: -0.02em;
   margin-bottom: 1.5rem;
@@ -197,8 +192,6 @@ body {
   color: transparent;
   font-style: normal;
   -webkit-text-stroke: 2px var(--gold);
-  /* BUG FIX #4 — adicionado paint-order para garantir que o stroke fique atrás do fill
-     em browsers que suportam, evitando artefatos visuais no texto outline */
   paint-order: stroke fill;
 }
 .hero-sub {
@@ -291,10 +284,8 @@ body {
   border: none;
   transition: var(--transition);
   white-space: nowrap;
-  /* BUG FIX #5 — -webkit-tap-highlight-color remove o flash azul ao tocar em mobile */
   -webkit-tap-highlight-color: transparent;
 }
-/* BUG FIX #6 — focus-visible para acessibilidade de teclado em todos os botões */
 .btn:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 3px;
@@ -412,8 +403,6 @@ body {
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
 }
-/* BUG FIX #7 — cards-grid--single sem justify-content causava o card
-   se esticar para 100% da largura. Adicionado justify-content: start. */
 .cards-grid--single {
   grid-template-columns: minmax(300px, 480px);
   justify-content: start;
@@ -428,7 +417,7 @@ body {
   overflow: hidden;
   position: relative;
   transition: transform 0.4s cubic-bezier(.22,.68,0,1.2), box-shadow 0.4s, border-color 0.4s;
-  transform-style: preserve-3d;
+  transform-style: flat;
 }
 .store-card::before {
   content: '';
@@ -439,13 +428,6 @@ body {
   transition: opacity 0.3s;
   pointer-events: none;
   border-radius: var(--radius-md);
-}
-/* BUG FIX #8 — store-card usa overflow:hidden que bloqueia o ring animation do .fab-wa::before.
-   Para o store-card, o overflow hidden é necessário para o design, mas em Safari o
-   transform-style: preserve-3d combinado com overflow: hidden quebra o 3D.
-   Solução: remover transform-style: preserve-3d do store-card, pois não há filhos 3D. */
-.store-card {
-  transform-style: flat;
 }
 .store-card:hover {
   transform: translateY(-6px) perspective(800px) rotateX(2deg);
@@ -498,8 +480,6 @@ body {
   font-weight: 700;
   text-decoration: none;
   transition: var(--transition);
-  /* BUG FIX #9 — cursor: pointer para garantir comportamento correto
-     caso o elemento seja renderizado como <button> em vez de <a> */
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
@@ -510,7 +490,6 @@ body {
   transform: scale(1.04);
   box-shadow: 0 4px 16px rgba(37,211,102,0.35);
 }
-/* BUG FIX #10 — focus-visible acessibilidade nos botões de ação do card */
 .btn-wa:focus-visible {
   outline: 2px solid var(--wa);
   outline-offset: 2px;
@@ -529,7 +508,6 @@ body {
   font-weight: 600;
   text-decoration: none;
   transition: var(--transition);
-  /* BUG FIX #9 (cont.) — cursor: pointer */
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
@@ -589,7 +567,6 @@ body {
   transition: var(--transition);
   position: relative;
   overflow: hidden;
-  /* BUG FIX #11 — cursor: pointer explícito para garantir mão em todos os browsers */
   cursor: pointer;
 }
 .social-card::after {
@@ -600,9 +577,6 @@ body {
   transition: opacity 0.3s;
   border-radius: var(--radius-md);
 }
-/* BUG FIX #12 — nth-child(1) e nth-child(2) tinham o mesmo gradiente Instagram,
-   mas o card 1 e 2 são ambos Instagram (perfis diferentes). Mantido igual ao original
-   pois é intencional — ambos são páginas do Instagram da loja. */
 .social-card:nth-child(1)::after,
 .social-card:nth-child(2)::after { background: linear-gradient(135deg, rgba(225,48,108,0.06) 0%, transparent 60%); }
 .social-card:nth-child(3)::after { background: linear-gradient(135deg, rgba(238,29,82,0.06) 0%, transparent 60%); }
@@ -613,7 +587,6 @@ body {
   border-color: rgba(225,48,108,0.3);
 }
 .social-card:nth-child(3):hover { border-color: rgba(238,29,82,0.3); }
-/* BUG FIX #13 — focus-visible para cards sociais navegáveis por teclado */
 .social-card:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 3px;
@@ -673,7 +646,6 @@ body {
   transition: color 0.25s;
 }
 .footer-links a:hover { color: var(--gold); }
-/* BUG FIX #14 — focus-visible nos links do footer */
 .footer-links a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 2px; }
 .footer-copy { color: rgba(136,135,162,0.5); font-size: 0.75rem; }
 
@@ -694,11 +666,7 @@ body {
   text-decoration: none;
   transition: transform 0.3s, box-shadow 0.3s;
   animation: fabPop 0.6s 1s cubic-bezier(.22,.68,0,1.2) both;
-  /* BUG FIX #15 — overflow: visible garante que o ring pseudo-element
-     não seja cortado pelo stacking context em browsers baseados em WebKit */
   overflow: visible;
-  /* BUG FIX #16 — isolation: isolate cria novo stacking context para o fab
-     garantindo que o ring fique visível acima de outros elementos fixed */
   isolation: isolate;
   -webkit-tap-highlight-color: transparent;
 }
@@ -706,7 +674,6 @@ body {
   transform: scale(1.12) translateY(-3px);
   box-shadow: 0 8px 40px rgba(37,211,102,0.65);
 }
-/* BUG FIX #17 — focus-visible no FAB */
 .fab-wa:focus-visible {
   outline: 3px solid #25D366;
   outline-offset: 4px;
@@ -722,8 +689,6 @@ body {
   border-radius: 50%;
   background: inherit;
   animation: fabRing 2.5s ease-out infinite 1.5s;
-  /* BUG FIX #18 — pointer-events: none no pseudo-element para que não interfira
-     em eventos de clique ao escalar para scale(2) */
   pointer-events: none;
 }
 @keyframes fabRing {
@@ -777,8 +742,6 @@ body {
   .hero-title { font-size: clamp(2.4rem, 13vw, 4rem); }
 
   .cards-grid { grid-template-columns: 1fr; }
-  /* BUG FIX #19 — no mobile, cards-grid--single também deve ser 1fr
-     sem o justify-content: start que deixava o card estreito */
   .cards-grid--single { grid-template-columns: 1fr; justify-content: stretch; }
   .social-grid { grid-template-columns: 1fr; }
 }
@@ -798,7 +761,5 @@ body {
   *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; }
   .reveal { opacity: 1; transform: none; }
   #bg-canvas { display: none; }
-  /* BUG FIX #20 — scroll-behavior: smooth não era desativado no prefers-reduced-motion.
-     Isso causava scroll animado para usuários com sensibilidade a movimento. Corrigido. */
   html { scroll-behavior: auto; }
 }
