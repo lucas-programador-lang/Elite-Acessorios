@@ -1,388 +1,232 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Elite Acessórios – Porto Velho</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
-  <!-- Three.js for 3D -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Acessórios • Lojas em Porto Velho e Jaru</title>
+    <meta name="description" content="Elite Acessórios - Compre online e receba em casa. Lojas físicas em Porto Velho e Jaru com atendimento premium.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="bg-[#111111] text-white font-sans">
 
-  <!-- ============ CANVAS 3D BACKGROUND ============ -->
-  <canvas id="bg-canvas"></canvas>
+    <!-- NAVBAR -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-[#111111]/95 backdrop-blur-lg border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex items-center gap-x-3">
+                    <div class="w-9 h-9 bg-[#d4af37] rounded-full flex items-center justify-center">
+                        <span class="text-[#111111] font-bold text-2xl tracking-[-2px]">E</span>
+                    </div>
+                    <div>
+                        <span class="font-semibold text-2xl tracking-tight">Elite</span>
+                        <span class="font-light text-xl text-[#d4af37]">Acessórios</span>
+                    </div>
+                </div>
 
-  <!-- ============ HEADER / NAV ============ -->
-  <header class="header" id="header">
-    <div class="header-inner">
-      <a href="#" class="logo">
-        <span class="logo-icon">💎</span>
-        <span class="logo-text">Elite <em>Acessórios</em></span>
-      </a>
-      <nav class="nav" id="nav">
-        <a href="#online" class="nav-link">Compra Online</a>
-        <a href="#lojas" class="nav-link">Lojas</a>
-        <a href="#promocoes" class="nav-link">Promoções</a>
-        <a href="#redes" class="nav-link">Redes Sociais</a>
-      </nav>
-      <button class="hamburger" id="hamburger" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </header>
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center gap-x-10 text-sm font-medium">
+                    <a href="#lojas" class="hover:text-[#d4af37] transition-colors">Lojas</a>
+                    <a href="#promocoes" class="hover:text-[#d4af37] transition-colors">Promoções</a>
+                    <a href="#redes" class="hover:text-[#d4af37] transition-colors">Redes Sociais</a>
+                </div>
 
-  <!-- ============ HERO ============ -->
-  <section class="hero" id="hero">
-    <div class="hero-content">
-      <div class="badge reveal">Porto Velho • RO</div>
-      <h1 class="hero-title reveal">
-        Acessórios<br/><em>Premium</em><br/>para Você
-      </h1>
-      <p class="hero-sub reveal">10 lojas em Porto Velho e Jaru — na sua zona, do seu jeito.</p>
-      <div class="hero-cta reveal">
-        <a href="#lojas" class="btn btn-primary">Ver Lojas</a>
-        <a href="https://api.whatsapp.com/send/?phone=556984936647&text=Ol%C3%A1%2C+gostaria+de+falar+com+um+atendente&type=phone_number&app_absent=0"
-           class="btn btn-ghost" target="_blank" rel="noopener">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Falar no WhatsApp
-        </a>
-      </div>
-    </div>
-    <div class="hero-float reveal">
-      <div class="float-card">
-        <span class="float-num">10</span>
-        <span class="float-label">Lojas</span>
-      </div>
-      <div class="float-card">
-        <span class="float-num">2</span>
-        <span class="float-label">Cidades</span>
-      </div>
-      <div class="float-card">
-        <span class="float-num">∞</span>
-        <span class="float-label">Modelos</span>
-      </div>
-    </div>
-    <div class="scroll-hint">
-      <span>scroll</span>
-      <div class="scroll-line"></div>
-    </div>
-  </section>
-
-  <!-- ============ COMPRA ONLINE ============ -->
-  <section class="section online-section" id="online">
-    <div class="container">
-      <div class="section-tag reveal">Compra Online</div>
-      <h2 class="section-title reveal">Compre e receba<br/><em>sem sair de casa</em></h2>
-      <p class="section-desc reveal">Escolha seus acessórios favoritos e receba na sua porta. Atendimento rápido e entrega garantida em Porto Velho.</p>
-      <a href="https://api.whatsapp.com/send/?phone=556984936647&text=Ol%C3%A1%2C+gostaria+de+falar+com+um+atendente&type=phone_number&app_absent=0"
-         class="btn btn-primary btn-large reveal" target="_blank" rel="noopener">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Pedir Agora pelo WhatsApp
-      </a>
-    </div>
-    <div class="online-glow"></div>
-  </section>
-
-  <!-- ============ LOJAS ============ -->
-  <section class="section" id="lojas">
-    <div class="container">
-      <div class="section-tag reveal">Nossas Lojas</div>
-      <h2 class="section-title reveal">Perto de <em>onde você está</em></h2>
-
-      <!-- Zona Sul -->
-      <div class="zone-label reveal">📍 Zona Sul</div>
-      <div class="cards-grid">
-
-        <div class="store-card reveal" data-delay="0">
-          <div class="card-number">01</div>
-          <div class="card-body">
-            <h3>Loja 1 — Jatuarana</h3>
-            <p class="card-address">Av. Jatuarana, 4204 — Conceição<br/>Porto Velho – RO, 76808-278</p>
-            <div class="card-actions">
-              <a href="https://api.whatsapp.com/send/?phone=556992435937&text=Ol%C3%A1%2C+gostaria+de+falar+com+um+atendente&type=phone_number&app_absent=0"
-                 class="btn-wa" target="_blank" rel="noopener">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                WhatsApp
-              </a>
-              <a href="https://maps.app.goo.gl/Yjwqxytv7s2A2Wxs8" class="btn-map" target="_blank" rel="noopener">
-                📍 Ver no Mapa
-              </a>
+                <!-- Actions -->
+                <div class="flex items-center gap-x-4">
+                    <!-- WhatsApp Icon -->
+                    <a href="https://api.whatsapp.com/send/?phone=556984936647&text=Ol%C3%A1%2C+gostaria+de+falar+com+um+atendente&type=phone_number&app_absent=0" 
+                       target="_blank"
+                       class="hidden md:flex items-center gap-x-2 px-4 py-2 rounded-full bg-[#25D366] hover:bg-[#20ba5a] transition-all text-sm font-medium">
+                        <i class="fab fa-whatsapp text-lg"></i>
+                        <span>WhatsApp</span>
+                    </a>
+                    
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-btn"
+                            class="md:hidden w-10 h-10 flex items-center justify-center text-xl">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
             </div>
-          </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="pt-20 min-h-[100dvh] flex items-center bg-[#0a0a0a]">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+            <!-- Text Content -->
+            <div class="space-y-8">
+                <div>
+                    <div class="inline-flex items-center gap-x-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm mb-6">
+                        <div class="w-2 h-2 bg-[#d4af37] rounded-full animate-pulse"></div>
+                        <span class="text-[#d4af37]">Premium • Desde 2018</span>
+                    </div>
+                    
+                    <h1 class="text-6xl md:text-7xl font-semibold tracking-tighter leading-none">
+                        Elite<br>Acessórios
+                    </h1>
+                    <p class="mt-4 text-2xl text-white/70 font-light tracking-tight">
+                        Qualidade que você sente.<br>
+                        Atendimento que você merece.
+                    </p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#compra-online" 
+                       class="inline-flex items-center justify-center gap-x-3 px-8 h-14 rounded-2xl bg-[#d4af37] hover:bg-[#c5a05e] active:bg-[#b38f4e] transition-all text-[#111111] font-semibold text-lg">
+                        <span>Comprar Online</span>
+                    </a>
+                    <a href="#lojas" 
+                       class="inline-flex items-center justify-center gap-x-3 px-8 h-14 rounded-2xl border border-white/30 hover:bg-white/5 transition-all font-medium text-lg">
+                        Ver todas as lojas
+                    </a>
+                </div>
+                
+                <div class="flex items-center gap-x-8 text-sm text-white/60">
+                    <div class="flex items-center gap-x-2">
+                        <i class="fas fa-check text-[#d4af37]"></i>
+                        <span>Entrega em todo RO</span>
+                    </div>
+                    <div class="flex items-center gap-x-2">
+                        <i class="fas fa-check text-[#d4af37]"></i>
+                        <span>10 lojas físicas</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3D Canvas -->
+            <div class="relative h-[420px] md:h-[520px] rounded-3xl overflow-hidden border border-white/10 bg-black/40">
+                <canvas id="three-canvas" class="w-full h-full"></canvas>
+                <div class="absolute bottom-4 right-4 text-[10px] px-3 py-1 rounded-full bg-black/60 text-white/50 tracking-widest text-xs">INTERAJA COM O MOUSE</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- COMPRA ONLINE -->
+    <section id="compra-online" class="max-w-5xl mx-auto px-6 py-20">
+        <div class="bg-[#1a1a1a] border border-white/10 rounded-3xl p-12 md:p-16 text-center">
+            <div class="max-w-2xl mx-auto">
+                <div class="inline-block px-4 py-1 text-xs tracking-[3px] font-medium text-[#d4af37] mb-4">COMODIDADE ELITE</div>
+                <h2 class="text-4xl md:text-5xl font-semibold tracking-tight">Compre Online e Receba em Casa</h2>
+                <p class="mt-4 text-xl text-white/70">Compre e receba seu produto sem precisar sair de casa.</p>
+                
+                <div class="mt-10">
+                    <a href="https://api.whatsapp.com/send/?phone=556984936647&text=Ol%C3%A1%2C+gostaria+de+falar+com+um+atendente&type=phone_number&app_absent=0" 
+                       target="_blank"
+                       class="inline-flex items-center justify-center gap-x-3 px-10 h-16 rounded-2xl bg-[#25D366] hover:bg-[#20ba5a] text-white font-semibold text-xl transition-all active:scale-[0.985]">
+                        <i class="fab fa-whatsapp text-3xl"></i>
+                        <span>Falar com Atendente no WhatsApp</span>
+                    </a>
+                </div>
+                <p class="mt-4 text-sm text-white/50">Resposta rápida • Atendimento humano</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- NOSSAS LOJAS -->
+    <section id="lojas" class="max-w-7xl mx-auto px-6 pb-24">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-y-4 mb-10">
+            <div>
+                <span class="text-[#d4af37] text-sm tracking-[2px] font-medium">ONDE ESTAMOS</span>
+                <h2 class="text-5xl font-semibold tracking-tighter">Nossas Lojas</h2>
+            </div>
+            <p class="text-white/60 max-w-xs">Clique no botão e fale diretamente com a loja de sua preferência.</p>
         </div>
 
-        <div class="store-card reveal" data-delay="100">
-          <div class="card-number">02</div>
-          <div class="card-body">
-            <h3>Loja 2 — Jatuarana</h3>
-            <p class="card-address">Av. Jatuarana, 4855 — Nova Floresta<br/>Porto Velho – RO, 76807-441</p>
-            <div class="card-actions">
-              <a href="https://api.whatsapp.com/send/?phone=556992291429&text=Ol%C3%A1%2C+gostaria+de+falar+com+um+atendente&type=phone_number&app_absent=0"
-                 class="btn-wa" target="_blank" rel="noopener">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                WhatsApp
-              </a>
-              <a href="https://www.google.com/maps/search/Av.+Jatuarana,+4855+Nova+Floresta+Porto+Velho" class="btn-map" target="_blank" rel="noopener">
-                📍 Ver no Mapa
-              </a>
-            </div>
-          </div>
+        <!-- Filtros -->
+        <div class="flex flex-wrap gap-2 mb-8" id="filter-buttons">
+            <button data-filter="all" class="filter-btn active px-6 py-2.5 text-sm font-medium rounded-full bg-[#d4af37] text-[#111111]">Todas</button>
+            <button data-filter="Zona Sul" class="filter-btn px-6 py-2.5 text-sm font-medium rounded-full border border-white/20 hover:bg-white/5">Zona Sul</button>
+            <button data-filter="Zona Leste" class="filter-btn px-6 py-2.5 text-sm font-medium rounded-full border border-white/20 hover:bg-white/5">Zona Leste</button>
+            <button data-filter="Centro" class="filter-btn px-6 py-2.5 text-sm font-medium rounded-full border border-white/20 hover:bg-white/5">Centro</button>
+            <button data-filter="Jaru" class="filter-btn px-6 py-2.5 text-sm font-medium rounded-full border border-white/20 hover:bg-white/5">Jaru</button>
         </div>
 
-        <div class="store-card reveal" data-delay="200">
-          <div class="card-number">04</div>
-          <div class="card-body">
-            <h3>Loja 4 — Jatuarana</h3>
-            <p class="card-address">Av. Jatuarana, 4677 — Nova Floresta<br/>Porto Velho – RO, 76807-313</p>
-            <div class="card-actions">
-              <a href="https://api.whatsapp.com/send/?phone=556993372596&text=Ol%C3%A1%2C+gostaria+de+falar+com+um+atendente&type=phone_number&app_absent=0"
-                 class="btn-wa" target="_blank" rel="noopener">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                WhatsApp
-              </a>
-              <a href="https://www.google.com/maps/search/Av.+Jatuarana,+4677+Nova+Floresta+Porto+Velho" class="btn-map" target="_blank" rel="noopener">
-                📍 Ver no Mapa
-              </a>
-            </div>
-          </div>
+        <!-- Grid de Lojas -->
+        <div id="stores-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <!-- Cards gerados via JavaScript -->
         </div>
-      </div>
+    </section>
 
-      <!-- Zona Leste -->
-      <div class="zone-label reveal">📍 Zona Leste</div>
-      <div class="cards-grid">
-
-        <div class="store-card reveal" data-delay="0">
-          <div class="card-number">03</div>
-          <div class="card-body">
-            <h3>Loja 3 — José Amador</h3>
-            <p class="card-address">Av. José Amador dos Reis, 2900 — Tancredo Neves<br/>Porto Velho – RO, 76829-422</p>
-            <div class="card-actions">
-              <a href="https://api.whatsapp.com/send/?phone=556992713872&text=Ol%C3%A1%2C+gostaria+de+falar+com+um+atendente&type=phone_number&app_absent=0"
-                 class="btn-wa" target="_blank" rel="noopener">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                WhatsApp
-              </a>
-              <a href="https://www.google.com/maps/search/Av.+José+Amador+dos+Reis,+2900+Porto+Velho" class="btn-map" target="_blank" rel="noopener">
-                📍 Ver no Mapa
-              </a>
+    <!-- PROMOÇÕES -->
+    <section id="promocoes" class="bg-[#1a1a1a] border-t border-b border-white/10 py-20">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <div class="inline-flex items-center gap-x-2 text-[#d4af37] text-sm tracking-[3px] mb-3">
+                <i class="fas fa-gift"></i>
+                <span>EXCLUSIVO PARA VOCÊ</span>
             </div>
-          </div>
+            <h2 class="text-5xl font-semibold tracking-tight">Promoções Exclusivas</h2>
+            <p class="mt-4 text-xl text-white/70 max-w-md mx-auto">Confira nossos produtos e serviços com descontos especiais para você.</p>
+            
+            <div class="mt-10">
+                <a href="https://chat.whatsapp.com/J62jn6Ka925EoM7Nppf2Vf" target="_blank"
+                   class="inline-flex items-center gap-x-3 px-9 h-14 rounded-2xl border-2 border-[#d4af37] text-[#d4af37] hover:bg-[#d4af37] hover:text-[#111111] font-semibold transition-all">
+                    <i class="fab fa-whatsapp text-xl"></i>
+                    <span>Entrar no Grupo VIP de Promoções</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- REDES SOCIAIS -->
+    <section id="redes" class="max-w-5xl mx-auto px-6 py-20">
+        <div class="text-center mb-12">
+            <span class="text-[#d4af37] text-sm tracking-[2px]">FIQUE POR DENTRO</span>
+            <h2 class="text-5xl font-semibold tracking-tight mt-2">Nos acompanhe nas redes</h2>
         </div>
 
-        <div class="store-card reveal" data-delay="100">
-          <div class="card-number">05</div>
-          <div class="card-body">
-            <h3>Loja 5 — José Amador</h3>
-            <p class="card-address">Av. José Amador dos Reis, 3368 — Tancredo Neves<br/>Porto Velho – RO, 76829-498</p>
-            <div class="card-actions">
-              <a href="https://api.whatsapp.com/send/?phone=556993505182&text=Ol%C3%A1%2C+gostaria+de+falar+com+um+atendente&type=phone_number&app_absent=0"
-                 class="btn-wa" target="_blank" rel="noopener">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                WhatsApp
-              </a>
-              <a href="https://www.google.com/maps/search/Av.+José+Amador+dos+Reis,+3368+Porto+Velho" class="btn-map" target="_blank" rel="noopener">
-                📍 Ver no Mapa
-              </a>
-            </div>
-          </div>
+        <div class="grid md:grid-cols-3 gap-6">
+            <!-- Instagram Principal -->
+            <a href="https://www.instagram.com/elite_acessorios_pvh" target="_blank"
+               class="group bg-[#1a1a1a] border border-white/10 hover:border-[#d4af37]/60 rounded-3xl p-8 flex flex-col items-center text-center transition-all hover:-translate-y-1">
+                <i class="fab fa-instagram text-6xl text-[#E1306C] mb-6 group-hover:scale-110 transition-transform"></i>
+                <h3 class="font-semibold text-2xl">Instagram</h3>
+                <p class="text-white/60 mt-1">Elite Acessórios PVH</p>
+                <div class="mt-auto pt-6 text-sm font-medium text-[#d4af37] flex items-center gap-x-2">
+                    Seguir <i class="fas fa-arrow-right text-xs"></i>
+                </div>
+            </a>
+
+            <!-- Instagram Jaru -->
+            <a href="https://www.instagram.com/elite_acessorios_jaru" target="_blank"
+               class="group bg-[#1a1a1a] border border-white/10 hover:border-[#d4af37]/60 rounded-3xl p-8 flex flex-col items-center text-center transition-all hover:-translate-y-1">
+                <i class="fab fa-instagram text-6xl text-[#E1306C] mb-6 group-hover:scale-110 transition-transform"></i>
+                <h3 class="font-semibold text-2xl">Instagram Jaru</h3>
+                <p class="text-white/60 mt-1">Elite Acessórios Jaru</p>
+                <div class="mt-auto pt-6 text-sm font-medium text-[#d4af37] flex items-center gap-x-2">
+                    Seguir <i class="fas fa-arrow-right text-xs"></i>
+                </div>
+            </a>
+
+            <!-- TikTok -->
+            <a href="https://www.tiktok.com/@eliteacessoriospvh" target="_blank"
+               class="group bg-[#1a1a1a] border border-white/10 hover:border-[#d4af37]/60 rounded-3xl p-8 flex flex-col items-center text-center transition-all hover:-translate-y-1">
+                <i class="fab fa-tiktok text-6xl mb-6 group-hover:scale-110 transition-transform"></i>
+                <h3 class="font-semibold text-2xl">TikTok</h3>
+                <p class="text-white/60 mt-1">@eliteacessoriospvh</p>
+                <div class="mt-auto pt-6 text-sm font-medium text-[#d4af37] flex items-center gap-x-2">
+                    Seguir <i class="fas fa-arrow-right text-xs"></i>
+                </div>
+            </a>
         </div>
+    </section>
 
-        <div class="store-card reveal" data-delay="200">
-          <div class="card-number">08</div>
-          <div class="card-body">
-            <h3>Loja 8 — Rua União</h3>
-            <p class="card-address">R. União, 1881 — São Francisco<br/>Porto Velho – RO, 76802-330</p>
-            <div class="card-actions">
-              <a href="https://api.whatsapp.com/send/?phone=556992243771&text=Ol%C3%A1%2C+gostaria+de+falar+com+um+atendente&type=phone_number&app_absent=0"
-                 class="btn-wa" target="_blank" rel="noopener">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                WhatsApp
-              </a>
-              <a href="https://www.google.com/maps/search/R.+União,+1881+São+Francisco+Porto+Velho" class="btn-map" target="_blank" rel="noopener">
-                📍 Ver no Mapa
-              </a>
-            </div>
-          </div>
+    <!-- FOOTER -->
+    <footer class="border-t border-white/10 py-12">
+        <div class="max-w-7xl mx-auto px-6 text-center text-sm text-white/50">
+            <p>© 2026 Elite Acessórios. Todos os direitos reservados.</p>
+            <p class="mt-1">Porto Velho - RO • Jaru - RO</p>
         </div>
+    </footer>
 
-        <div class="store-card reveal" data-delay="300">
-          <div class="card-number">09</div>
-          <div class="card-body">
-            <h3>Loja 9 — Sete de Setembro</h3>
-            <p class="card-address">Av. Sete de Setembro, 927 — Centro<br/>Porto Velho – RO, 76801-073</p>
-            <div class="card-actions">
-              <a href="https://api.whatsapp.com/send/?phone=556992634390&text=Ol%C3%A1%2C+gostaria+de+falar+com+um+atendente&type=phone_number&app_absent=0"
-                 class="btn-wa" target="_blank" rel="noopener">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                WhatsApp
-              </a>
-              <a href="https://www.google.com/maps/search/Av.+Sete+de+Setembro,+927+Porto+Velho" class="btn-map" target="_blank" rel="noopener">
-                📍 Ver no Mapa
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Centro -->
-      <div class="zone-label reveal">📍 Centro</div>
-      <div class="cards-grid">
-
-        <div class="store-card reveal" data-delay="0">
-          <div class="card-number">06</div>
-          <div class="card-body">
-            <h3>Loja 6 — Dom Pedro II</h3>
-            <p class="card-address">R. Dom Pedro II, 1382 — São Cristóvão<br/>Porto Velho – RO, 76801-102</p>
-            <div class="card-actions">
-              <a href="https://api.whatsapp.com/send/?phone=556992928005&text=Ol%C3%A1%2C+gostaria+de+falar+com+um+atendente&type=phone_number&app_absent=0"
-                 class="btn-wa" target="_blank" rel="noopener">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                WhatsApp
-              </a>
-              <a href="https://www.google.com/maps/search/R.+Dom+Pedro+II,+1382+Porto+Velho" class="btn-map" target="_blank" rel="noopener">
-                📍 Ver no Mapa
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div class="store-card reveal" data-delay="100">
-          <div class="card-number">07</div>
-          <div class="card-body">
-            <h3>Loja 7 — Sete de Setembro</h3>
-            <p class="card-address">Av. Sete de Setembro, 1074 — Centro<br/>Porto Velho – RO, 76820-120</p>
-            <div class="card-actions">
-              <a href="https://api.whatsapp.com/send/?phone=556992764063&text=Ol%C3%A1%2C+gostaria+de+falar+com+um+atendente&type=phone_number&app_absent=0"
-                 class="btn-wa" target="_blank" rel="noopener">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                WhatsApp
-              </a>
-              <a href="https://www.google.com/maps/search/Av.+Sete+de+Setembro,+1074+Porto+Velho" class="btn-map" target="_blank" rel="noopener">
-                📍 Ver no Mapa
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Jaru -->
-      <div class="zone-label reveal">📍 Jaru – RO</div>
-      <div class="cards-grid cards-grid--single">
-        <div class="store-card store-card--featured reveal">
-          <div class="card-number">10</div>
-          <div class="card-body">
-            <h3>Loja Jaru — Padre Adolfo Rohl</h3>
-            <p class="card-address">Av. Padre Adolpho Rohl, 1560 — St. 2<br/>Jaru – RO, 76890-000</p>
-            <div class="card-actions">
-              <a href="https://api.whatsapp.com/send/?phone=556992337081&text=Ol%C3%A1%2C+gostaria+de+falar+com+um+atendente&type=phone_number&app_absent=0"
-                 class="btn-wa" target="_blank" rel="noopener">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                WhatsApp
-              </a>
-              <a href="https://www.google.com/maps/search/Av.+Padre+Adolpho+Rohl,+1560+Jaru+RO" class="btn-map" target="_blank" rel="noopener">
-                📍 Ver no Mapa
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ============ PROMOÇÕES ============ -->
-  <section class="section promo-section" id="promocoes">
-    <div class="container">
-      <div class="section-tag reveal">Ofertas</div>
-      <h2 class="section-title reveal">Promoções<br/><em>Exclusivas</em></h2>
-      <p class="section-desc reveal">Confira nossos produtos e serviços com descontos especiais para você. Acesse o grupo e garanta as melhores ofertas.</p>
-      <a href="https://chat.whatsapp.com/J62jn6Ka925EoM7Nppf2Vf"
-         class="btn btn-promo reveal" target="_blank" rel="noopener">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Entrar no Grupo de Promoções
-      </a>
-    </div>
-    <div class="promo-orb"></div>
-  </section>
-
-  <!-- ============ REDES SOCIAIS ============ -->
-  <section class="section" id="redes">
-    <div class="container">
-      <div class="section-tag reveal">Social</div>
-      <h2 class="section-title reveal">Nos acompanhe<br/><em>nas redes</em></h2>
-      <p class="section-desc reveal">Fique por dentro das novidades, lançamentos e promoções das nossas lojas.</p>
-
-      <div class="social-grid">
-
-        <a href="https://www.instagram.com/elite_acessorios_pvh" class="social-card reveal" target="_blank" rel="noopener">
-          <div class="social-icon instagram-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-          </div>
-          <div class="social-info">
-            <span class="social-platform">Instagram PVH</span>
-            <span class="social-handle">@elite_acessorios_pvh</span>
-          </div>
-          <span class="social-arrow">→</span>
-        </a>
-
-        <a href="https://www.instagram.com/elite_acessorios_jaru" class="social-card reveal" data-delay="100" target="_blank" rel="noopener">
-          <div class="social-icon instagram-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-          </div>
-          <div class="social-info">
-            <span class="social-platform">Instagram Jaru</span>
-            <span class="social-handle">@elite_acessorios_jaru</span>
-          </div>
-          <span class="social-arrow">→</span>
-        </a>
-
-        <a href="https://www.tiktok.com/@eliteacessoriospvh?_r=1" class="social-card reveal" data-delay="200" target="_blank" rel="noopener">
-          <div class="social-icon tiktok-icon">
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.79 1.53V6.76a4.85 4.85 0 01-1.02-.07z"/></svg>
-          </div>
-          <div class="social-info">
-            <span class="social-platform">TikTok</span>
-            <span class="social-handle">@eliteacessoriospvh</span>
-          </div>
-          <span class="social-arrow">→</span>
-        </a>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ FOOTER ============ -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-logo">
-        <span class="logo-icon">💎</span>
-        <span>Elite <em>Acessórios</em></span>
-      </div>
-      <p class="footer-tagline">Seu estilo. Sua escolha. Sempre perto de você.</p>
-      <div class="footer-links">
-        <a href="https://www.instagram.com/elite_acessorios_pvh" target="_blank" rel="noopener">Instagram PVH</a>
-        <a href="https://www.instagram.com/elite_acessorios_jaru" target="_blank" rel="noopener">Instagram Jaru</a>
-        <a href="https://www.tiktok.com/@eliteacessoriospvh" target="_blank" rel="noopener">TikTok</a>
-        <a href="https://chat.whatsapp.com/J62jn6Ka925EoM7Nppf2Vf" target="_blank" rel="noopener">Promoções</a>
-      </div>
-      <p class="footer-copy">© 2025 Elite Acessórios — Porto Velho &amp; Jaru, RO</p>
-    </div>
-  </footer>
-
-  <!-- ============ FLOATING WA BUTTON ============ -->
-  <a href="https://api.whatsapp.com/send/?phone=556984936647&text=Ol%C3%A1%2C+gostaria+de+falar+com+um+atendente&type=phone_number&app_absent=0"
-   class="fab-wa" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
-   
-   <svg width="28" height="28" viewBox="0 0 24 24" fill="white" style="display:block;">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-   </svg>
-</a>
-
- <script src="script.js" defer></script>
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
