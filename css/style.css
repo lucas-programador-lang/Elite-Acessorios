@@ -33,5 +33,18 @@
 }
 
 #three-canvas {
-    display: block;
+    touch-action: none;
+}
+
+/* Menu Mobile */
+#mobile-menu-panel {
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.mobile-link {
+    padding: 12px 0;
+    transition: color 0.2s ease;
+}
+.mobile-link:hover {
+    color: #d4af37;
 }
