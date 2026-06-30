@@ -5,17 +5,15 @@ function initThreeJS() {
 
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
 
-    const renderer = new THREE.WebGLRenderer({ 
-        canvas, 
-        antialias: !isMobile,           // Desliga antialias no mobile
+    const renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: !isMobile,
         alpha: true,
         preserveDrawingBuffer: false,
         powerPreference: "high-performance"
     });
-    
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
 
-    // === SOMBRAS OTIMIZADAS POR DISPOSITIVO ===
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -23,14 +21,12 @@ function initThreeJS() {
     const camera = new THREE.PerspectiveCamera(70, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
     camera.position.set(0, 1.2, 6);
 
-    // Iluminação
     scene.add(new THREE.AmbientLight(0xffffff, 0.35));
 
     const dirLight = new THREE.DirectionalLight(0xffffff, 1.4);
     dirLight.position.set(6, 12, 8);
     dirLight.castShadow = true;
 
-    // Qualidade das sombras dependendo do dispositivo
     const shadowSize = isMobile ? 1024 : 2048;
     dirLight.shadow.mapSize.width = shadowSize;
     dirLight.shadow.mapSize.height = shadowSize;
@@ -47,7 +43,6 @@ function initThreeJS() {
     pointLight.position.set(-4, 5, 7);
     scene.add(pointLight);
 
-    // Materiais com reflexos
     const goldMat = new THREE.MeshStandardMaterial({
         color: 0xd4af37,
         metalness: 0.95,
@@ -64,34 +59,27 @@ function initThreeJS() {
     const group = new THREE.Group();
     scene.add(group);
 
-    // Torus Knot
     const torus = new THREE.Mesh(new THREE.TorusKnotGeometry(1.1, 0.32, 160, 20, 2, 3), goldMat);
     torus.castShadow = true;
     torus.receiveShadow = true;
     group.add(torus);
 
-    // Esferas (no mobile só as primeiras projetam sombra)
     const sphereGeo = new THREE.SphereGeometry(0.22, 32, 32);
     for (let i = 0; i < 6; i++) {
         const mat = i % 2 === 0 ? goldMat : darkGoldMat;
         const sphere = new THREE.Mesh(sphereGeo, mat);
         sphere.userData = { angle: (i / 6) * Math.PI * 2, radius: 3.0, speed: 0.28 + i * 0.045 };
-        
-        if (!isMobile && i % 2 === 0) {
-            sphere.castShadow = true;
-        }
+        if (!isMobile && i % 2 === 0) sphere.castShadow = true;
         sphere.receiveShadow = true;
         group.add(sphere);
     }
 
-    // Anel
     const ring1 = new THREE.Mesh(new THREE.TorusGeometry(2.05, 0.05, 16, 70), goldMat);
     ring1.rotation.x = Math.PI / 2;
-    ring1.castShadow = !isMobile; // Desliga sombra no mobile
+    ring1.castShadow = !isMobile;
     ring1.receiveShadow = true;
     group.add(ring1);
 
-    // Plano de sombra
     const shadowPlane = new THREE.Mesh(
         new THREE.PlaneGeometry(18, 18),
         new THREE.ShadowMaterial({ opacity: isMobile ? 0.25 : 0.4 })
@@ -101,7 +89,7 @@ function initThreeJS() {
     shadowPlane.receiveShadow = true;
     scene.add(shadowPlane);
 
-    // ==================== INTERAÇÃO ====================
+    // Interação
     let targetY = 0, targetX = 0;
     let isDragging = false;
     let previousX = 0;
@@ -119,7 +107,6 @@ function initThreeJS() {
         }
     });
 
-    // Touch
     canvas.addEventListener('touchstart', (e) => { isDragging = true; previousX = e.touches[0].clientX; });
     canvas.addEventListener('touchend', () => isDragging = false);
     canvas.addEventListener('touchmove', (e) => {
@@ -128,11 +115,10 @@ function initThreeJS() {
         previousX = e.touches[0].clientX;
     });
 
-    // Pausa quando aba inativa
     let isVisible = true;
     document.addEventListener('visibilitychange', () => isVisible = !document.hidden);
 
-    // ==================== LOOP DE ANIMAÇÃO OTIMIZADO ====================
+    // Loop de animação otimizado
     let lastTime = performance.now();
     const fpsLimit = isMobile ? 45 : 60;
     const frameInterval = 1000 / fpsLimit;
@@ -144,8 +130,7 @@ function initThreeJS() {
         const currentTime = performance.now();
         const delta = currentTime - lastTime;
 
-        if (delta < frameInterval) return; // Limita FPS no mobile
-
+        if (delta < frameInterval) return;
         lastTime = currentTime - (delta % frameInterval);
 
         if (!isDragging) {
@@ -169,7 +154,6 @@ function initThreeJS() {
     }
     animate();
 
-    // Resize
     function resize() {
         const w = canvas.parentElement.clientWidth;
         const h = canvas.parentElement.clientHeight;
@@ -206,7 +190,6 @@ function initMobileMenu() {
 
     menuBtn.addEventListener('click', openMenu);
     closeBtn.addEventListener('click', closeMenu);
-
     document.querySelectorAll('.mobile-link').forEach(link => link.addEventListener('click', closeMenu));
     mobileMenu.addEventListener('click', (e) => { if (e.target === mobileMenu) closeMenu(); });
 }
@@ -234,8 +217,8 @@ function renderStores(filter = 'all') {
 
     filtered.forEach((store, index) => {
         const card = document.createElement('div');
-        card.className = `store-card rounded-3xl p-6 flex flex-col animate-fade-up`;
-        card.style.animationDelay = `${index * 80}ms`;
+        card.className = `store-card rounded-3xl p-6 flex flex-col reveal animate-fade-up`;
+        card.style.animationDelay = `${index * 90}ms`;
 
         card.innerHTML = `
             <div>
@@ -264,6 +247,7 @@ function renderStores(filter = 'all') {
     });
 }
 
+// ==================== FILTROS ====================
 function initFilters() {
     const buttons = document.querySelectorAll('.filter-btn');
     buttons.forEach(btn => {
@@ -275,6 +259,7 @@ function initFilters() {
     });
 }
 
+// ==================== MODAL DO MAPA ====================
 function openMapModal(storeId) {
     const store = stores.find(s => s.id === storeId);
     if (!store) return;
@@ -296,12 +281,32 @@ document.getElementById('close-modal').addEventListener('click', () => {
     modal.classList.add('hidden');
 });
 
+// ==================== SCROLL REVEAL AVANÇADO ====================
+function initScrollAnimations() {
+    const reveals = document.querySelectorAll('.reveal, section');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.12,
+        rootMargin: "0px 0px -60px 0px"
+    });
+
+    reveals.forEach(el => observer.observe(el));
+}
+
 // ==================== INICIALIZAÇÃO ====================
 function init() {
     initThreeJS();
     initFilters();
     initMobileMenu();
     renderStores('all');
+    initScrollAnimations();
 }
 
 window.onload = init;
