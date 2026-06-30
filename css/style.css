@@ -1,11 +1,11 @@
-/* ==================== VARIÁVEIS ==================== */
+/* ==================== VARIÁVEIS DE TEMA ==================== */
 :root {
     --gold: #d4af37;
-    --gold-dark: #b8976e;
-    --bg-dark: #0f0f0f;
+    --gold-hover: #c5a05e;
+    --bg: #0f0f0f;
     --bg-card: #1a1a1a;
-    --text-primary: #f5f5f5;
-    --text-secondary: #a1a1aa;
+    --text: #f5f5f5;
+    --text-muted: #a1a1aa;
 }
 
 /* ==================== BASE ==================== */
@@ -15,7 +15,7 @@ body {
 
 h1, h2, h3 {
     font-weight: 600;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.03em;
 }
 
 /* ==================== NAVBAR ==================== */
@@ -38,8 +38,8 @@ nav {
     bottom: -2px;
     left: 0;
     width: 0;
-    height: 1px;
-    background-color: var(--gold);
+    height: 1.5px;
+    background: linear-gradient(to right, var(--gold), #f5d78f);
     transition: width 0.3s ease;
 }
 
@@ -58,18 +58,18 @@ nav {
     background-color: var(--gold);
     color: #0f0f0f;
     border-color: var(--gold);
-    box-shadow: 0 4px 14px 0 rgba(212, 175, 55, 0.2);
+    box-shadow: 0 4px 20px -2px rgba(212, 175, 55, 0.25);
 }
 
 .filter-btn:hover:not(.active) {
-    background-color: rgba(255,255,255,0.05);
-    border-color: rgba(255,255,255,0.2);
+    background-color: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.25);
 }
 
-/* ==================== STORE CARDS - PREMIUM ==================== */
+/* ==================== STORE CARDS - VISUAL PREMIUM ==================== */
 .store-card {
     background: linear-gradient(145deg, #1a1a1a, #161616);
-    border: 1px solid rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.07);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
@@ -79,38 +79,34 @@ nav {
     content: '';
     position: absolute;
     top: 0;
-    left: -100%;
-    width: 40%;
+    left: -120%;
+    width: 50%;
     height: 100%;
     background: linear-gradient(
         90deg,
         transparent,
-        rgba(212, 175, 55, 0.08),
+        rgba(212, 175, 55, 0.1),
         transparent
     );
-    transition: 0.6s;
+    transition: 0.7s;
 }
 
 .store-card:hover::before {
-    left: 200%;
+    left: 250%;
 }
 
 .store-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-12px);
     border-color: var(--gold);
-    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.5),
-                0 0 0 1px rgba(212, 175, 55, 0.1);
-}
-
-.store-card h3 {
-    letter-spacing: -0.5px;
+    box-shadow: 0 35px 70px -15px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(212, 175, 55, 0.15);
 }
 
 /* ==================== ANIMAÇÕES ==================== */
 .animate-fade-up {
     opacity: 0;
-    transform: translateY(40px);
-    animation: fadeUpPremium 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    transform: translateY(50px);
+    animation: fadeUpPremium 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 @keyframes fadeUpPremium {
@@ -125,13 +121,13 @@ nav {
     background-color: var(--gold);
     color: #0f0f0f;
     font-weight: 600;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .gold-btn:hover {
-    background-color: #c5a05e;
-    transform: translateY(-1px);
-    box-shadow: 0 10px 15px -3px rgb(212 175 55 / 0.3);
+    background-color: var(--gold-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(212, 175, 55, 0.4);
 }
 
 .whatsapp-btn {
@@ -141,46 +137,42 @@ nav {
 
 .whatsapp-btn:hover {
     background-color: #20ba5a;
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(37, 211, 102, 0.3);
 }
 
 /* ==================== MODAL ==================== */
 #map-modal {
-    animation: fadeInModal 0.2s ease forwards;
+    animation: fadeIn 0.25s ease forwards;
 }
 
-@keyframes fadeInModal {
+@keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
 }
 
 /* ==================== MENU MOBILE ==================== */
 #mobile-menu-panel {
-    box-shadow: -15px 0 40px rgba(0, 0, 0, 0.6);
+    box-shadow: -20px 0 50px rgba(0, 0, 0, 0.7);
 }
 
 .mobile-link {
-    padding: 14px 0;
+    padding: 16px 0;
     transition: all 0.2s ease;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-
-.mobile-link:last-child {
-    border-bottom: none;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
 .mobile-link:hover {
     color: var(--gold);
-    padding-left: 8px;
+    padding-left: 12px;
 }
 
 /* ==================== SEÇÕES ==================== */
 section {
-    scroll-margin-top: 80px;
+    scroll-margin-top: 90px;
 }
 
-/* ==================== THREE.JS CANVAS ==================== */
+/* ==================== THREE.JS ==================== */
 #three-canvas {
     touch-action: none;
-    border-radius: 24px;
 }
