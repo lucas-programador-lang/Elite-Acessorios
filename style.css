@@ -654,7 +654,7 @@ body {
   position: fixed;
   bottom: 2rem;
   right: 2rem;
-  z-index: 200;
+  z-index: 9999;
   width: 60px; height: 60px;
   background: linear-gradient(135deg, #25D366, #128C7E);
   border-radius: 50%;
