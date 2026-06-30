@@ -1,17 +1,21 @@
-// ==================== THREE.JS COM SOMBRAS E REFLEXOS ====================
+// ==================== THREE.JS OTIMIZADO ====================
 function initThreeJS() {
     const canvas = document.getElementById('three-canvas');
     if (!canvas) return;
 
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+
     const renderer = new THREE.WebGLRenderer({ 
         canvas, 
-        antialias: true, 
+        antialias: !isMobile,           // Desliga antialias no mobile
         alpha: true,
         preserveDrawingBuffer: false,
         powerPreference: "high-performance"
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
+
+    // === SOMBRAS OTIMIZADAS POR DISPOSITIVO ===
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -25,8 +29,11 @@ function initThreeJS() {
     const dirLight = new THREE.DirectionalLight(0xffffff, 1.4);
     dirLight.position.set(6, 12, 8);
     dirLight.castShadow = true;
-    dirLight.shadow.mapSize.width = 2048;
-    dirLight.shadow.mapSize.height = 2048;
+
+    // Qualidade das sombras dependendo do dispositivo
+    const shadowSize = isMobile ? 1024 : 2048;
+    dirLight.shadow.mapSize.width = shadowSize;
+    dirLight.shadow.mapSize.height = shadowSize;
     dirLight.shadow.camera.near = 1;
     dirLight.shadow.camera.far = 40;
     dirLight.shadow.camera.left = -12;
@@ -40,7 +47,7 @@ function initThreeJS() {
     pointLight.position.set(-4, 5, 7);
     scene.add(pointLight);
 
-    // Materiais com reflexos (PBR)
+    // Materiais com reflexos
     const goldMat = new THREE.MeshStandardMaterial({
         color: 0xd4af37,
         metalness: 0.95,
@@ -63,35 +70,38 @@ function initThreeJS() {
     torus.receiveShadow = true;
     group.add(torus);
 
-    // Esferas orbitando
+    // Esferas (no mobile só as primeiras projetam sombra)
     const sphereGeo = new THREE.SphereGeometry(0.22, 32, 32);
     for (let i = 0; i < 6; i++) {
         const mat = i % 2 === 0 ? goldMat : darkGoldMat;
         const sphere = new THREE.Mesh(sphereGeo, mat);
         sphere.userData = { angle: (i / 6) * Math.PI * 2, radius: 3.0, speed: 0.28 + i * 0.045 };
-        if (i % 2 === 0) sphere.castShadow = true;
+        
+        if (!isMobile && i % 2 === 0) {
+            sphere.castShadow = true;
+        }
         sphere.receiveShadow = true;
         group.add(sphere);
     }
 
-    // Anel decorativo
+    // Anel
     const ring1 = new THREE.Mesh(new THREE.TorusGeometry(2.05, 0.05, 16, 70), goldMat);
     ring1.rotation.x = Math.PI / 2;
-    ring1.castShadow = true;
+    ring1.castShadow = !isMobile; // Desliga sombra no mobile
     ring1.receiveShadow = true;
     group.add(ring1);
 
-    // Plano que recebe sombras
+    // Plano de sombra
     const shadowPlane = new THREE.Mesh(
         new THREE.PlaneGeometry(18, 18),
-        new THREE.ShadowMaterial({ opacity: 0.4 })
+        new THREE.ShadowMaterial({ opacity: isMobile ? 0.25 : 0.4 })
     );
     shadowPlane.rotation.x = -Math.PI / 2;
     shadowPlane.position.y = -3.2;
     shadowPlane.receiveShadow = true;
     scene.add(shadowPlane);
 
-    // Interação
+    // ==================== INTERAÇÃO ====================
     let targetY = 0, targetX = 0;
     let isDragging = false;
     let previousX = 0;
@@ -109,6 +119,7 @@ function initThreeJS() {
         }
     });
 
+    // Touch
     canvas.addEventListener('touchstart', (e) => { isDragging = true; previousX = e.touches[0].clientX; });
     canvas.addEventListener('touchend', () => isDragging = false);
     canvas.addEventListener('touchmove', (e) => {
@@ -117,12 +128,25 @@ function initThreeJS() {
         previousX = e.touches[0].clientX;
     });
 
+    // Pausa quando aba inativa
     let isVisible = true;
     document.addEventListener('visibilitychange', () => isVisible = !document.hidden);
+
+    // ==================== LOOP DE ANIMAÇÃO OTIMIZADO ====================
+    let lastTime = performance.now();
+    const fpsLimit = isMobile ? 45 : 60;
+    const frameInterval = 1000 / fpsLimit;
 
     function animate() {
         requestAnimationFrame(animate);
         if (!isVisible) return;
+
+        const currentTime = performance.now();
+        const delta = currentTime - lastTime;
+
+        if (delta < frameInterval) return; // Limita FPS no mobile
+
+        lastTime = currentTime - (delta % frameInterval);
 
         if (!isDragging) {
             group.rotation.y += (targetY - group.rotation.y) * 0.06;
@@ -145,6 +169,7 @@ function initThreeJS() {
     }
     animate();
 
+    // Resize
     function resize() {
         const w = canvas.parentElement.clientWidth;
         const h = canvas.parentElement.clientHeight;
@@ -168,9 +193,7 @@ function initMobileMenu() {
     function openMenu() {
         mobileMenu.classList.remove('hidden');
         mobileMenu.classList.add('flex');
-        setTimeout(() => {
-            panel.style.transform = 'translateX(0)';
-        }, 10);
+        setTimeout(() => panel.style.transform = 'translateX(0)', 10);
     }
 
     function closeMenu() {
@@ -184,16 +207,11 @@ function initMobileMenu() {
     menuBtn.addEventListener('click', openMenu);
     closeBtn.addEventListener('click', closeMenu);
 
-    document.querySelectorAll('.mobile-link').forEach(link => {
-        link.addEventListener('click', closeMenu);
-    });
-
-    mobileMenu.addEventListener('click', (e) => {
-        if (e.target === mobileMenu) closeMenu();
-    });
+    document.querySelectorAll('.mobile-link').forEach(link => link.addEventListener('click', closeMenu));
+    mobileMenu.addEventListener('click', (e) => { if (e.target === mobileMenu) closeMenu(); });
 }
 
-// ==================== DADOS DAS LOJAS ====================
+// ==================== LOJAS ====================
 const stores = [
     { id: 1, zona: "Zona Sul", nome: "Loja 1 - Jatuarana", subtitulo: "Nº 4204", endereco: "Av. Jatuarana, 4204 - Conceição, Porto Velho - RO, 76808-278", wa: "https://api.whatsapp.com/send/?phone=556984936647&text=Ol%C3%A1%2C+gostaria+de+falar+com+um+atendente&type=phone_number&app_absent=0", map: "https://maps.app.goo.gl/Yjwqxytv7s2A2Wxs8" },
     { id: 2, zona: "Zona Sul", nome: "Loja 2 - Av. Jatuarana", subtitulo: "Nº 4855", endereco: "Av. Jatuarana, 4855 - Nova Floresta, Porto Velho - RO, 76807-441", wa: "https://api.whatsapp.com/send/?phone=556992291429&text=Ol%C3%A1%2C+gostaria+de+falar+com+um+atendente&type=phone_number&app_absent=0", map: "https://www.google.com/maps/search/?api=1&query=Av.+Jatuarana%2C+4855+-+Nova+Floresta%2C+Porto+Velho+-+RO" },
@@ -207,11 +225,9 @@ const stores = [
     { id: 10, zona: "Jaru", nome: "Loja Jaru", subtitulo: "Rua Padre Adolfo Rohl, 1560", endereco: "Av. Padre Adolpho Rohl, 1560 - St. 2, Jaru - RO, 76890-000", wa: "https://api.whatsapp.com/send/?phone=556992337081&text=Ol%C3%A1%2C+gostaria+de+falar+com+um+atendente&type=phone_number&app_absent=0", map: "https://www.google.com/maps/search/?api=1&query=Av.+Padre+Adolpho+Rohl%2C+1560+-+St.+2%2C+Jaru+-+RO" }
 ];
 
-// ==================== RENDERIZAR LOJAS ====================
 function renderStores(filter = 'all') {
     const container = document.getElementById('stores-grid');
     if (!container) return;
-    
     container.innerHTML = '';
 
     const filtered = filter === 'all' ? stores : stores.filter(s => s.zona === filter);
@@ -227,22 +243,18 @@ function renderStores(filter = 'all') {
                 <h3 class="font-semibold text-2xl mt-3 tracking-tight">${store.nome}</h3>
                 <p class="text-sm text-white/60">${store.subtitulo}</p>
             </div>
-            
             <div class="mt-4 flex-1">
                 <div class="flex items-start gap-x-2 text-sm text-white/70">
                     <i class="fas fa-map-marker-alt mt-1 text-[#d4af37]"></i>
                     <span>${store.endereco}</span>
                 </div>
             </div>
-
             <div class="flex flex-col sm:flex-row gap-3 mt-6">
-                <a href="${store.wa}" target="_blank" 
-                   class="flex-1 flex items-center justify-center gap-x-2 h-11 rounded-2xl bg-[#25D366] hover:bg-[#20ba5a] text-sm font-semibold transition-all">
+                <a href="${store.wa}" target="_blank" class="flex-1 flex items-center justify-center gap-x-2 h-11 rounded-2xl bg-[#25D366] hover:bg-[#20ba5a] text-sm font-semibold transition-all">
                     <i class="fab fa-whatsapp"></i>
                     <span>WhatsApp</span>
                 </a>
-                <button onclick="openMapModal(${store.id})" 
-                        class="flex-1 flex items-center justify-center gap-x-2 h-11 rounded-2xl border border-white/20 hover:bg-white/5 text-sm font-medium transition-all">
+                <button onclick="openMapModal(${store.id})" class="flex-1 flex items-center justify-center gap-x-2 h-11 rounded-2xl border border-white/20 hover:bg-white/5 text-sm font-medium transition-all">
                     <i class="fas fa-map"></i>
                     <span>Ver no Mapa</span>
                 </button>
@@ -252,20 +264,17 @@ function renderStores(filter = 'all') {
     });
 }
 
-// ==================== FILTROS ====================
 function initFilters() {
     const buttons = document.querySelectorAll('.filter-btn');
     buttons.forEach(btn => {
         btn.addEventListener('click', () => {
             buttons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            const filter = btn.dataset.filter;
-            renderStores(filter);
+            renderStores(btn.dataset.filter);
         });
     });
 }
 
-// ==================== MODAL DO MAPA ====================
 function openMapModal(storeId) {
     const store = stores.find(s => s.id === storeId);
     if (!store) return;
@@ -292,7 +301,7 @@ function init() {
     initThreeJS();
     initFilters();
     initMobileMenu();
-    renderStores('all'); // Carrega todas as lojas
+    renderStores('all');
 }
 
 window.onload = init;
