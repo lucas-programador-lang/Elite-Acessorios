@@ -2,11 +2,7 @@
 :root {
     --gold: #d4af37;
     --gold-light: #e8c97a;
-    --gold-dark: #b8976e;
-    --bg: #0f0f0f;
     --bg-card: #181818;
-    --text: #f5f5f5;
-    --text-muted: #9ca3af;
 }
 
 /* ==================== BASE ==================== */
@@ -19,11 +15,19 @@ h1, h2, h3 {
     letter-spacing: -0.04em;
 }
 
-/* ==================== NAVBAR ==================== */
-nav {
-    backdrop-filter: blur(24px);
+/* ==================== SCROLL REVEAL ==================== */
+.reveal {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==================== NAVBAR ==================== */
 .nav-link {
     position: relative;
     transition: color 0.2s ease;
@@ -41,7 +45,7 @@ nav {
     width: 0;
     height: 2px;
     background: linear-gradient(to right, var(--gold), var(--gold-light));
-    transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .nav-link:hover::after {
@@ -51,144 +55,137 @@ nav {
 /* ==================== FILTER BUTTONS ==================== */
 .filter-btn {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    font-weight: 500;
-    letter-spacing: 0.6px;
+    position: relative;
+    overflow: hidden;
 }
 
 .filter-btn.active {
     background-color: var(--gold);
     color: #111111;
     border-color: var(--gold);
-    box-shadow: 0 6px 20px -4px rgba(212, 175, 55, 0.3);
+    box-shadow: 0 6px 20px -4px rgba(212, 175, 55, 0.35);
 }
 
-.filter-btn:hover:not(.active) {
-    background-color: rgba(255,255,255,0.07);
-    border-color: rgba(255,255,255,0.3);
-}
-
-/* ==================== STORE CARDS - LUXUOSOS ==================== */
+/* ==================== STORE CARDS - AVANÇADO ==================== */
 .store-card {
     background: linear-gradient(145deg, #181818, #141414);
     border: 1px solid rgba(255,255,255,0.08);
-    transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.3s ease;
     position: relative;
     overflow: hidden;
-}
-
-.store-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        145deg,
-        rgba(212, 175, 55, 0.03) 0%,
-        transparent 50%
-    );
-    opacity: 0;
-    transition: opacity 0.4s ease;
-}
-
-.store-card:hover::after {
-    opacity: 1;
+    will-change: transform;
 }
 
 .store-card:hover {
-    transform: translateY(-14px);
+    transform: translateY(-16px) rotateX(4deg) rotateY(2deg);
     border-color: var(--gold);
-    box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.7),
-                0 0 0 1px rgba(212, 175, 55, 0.2);
+    box-shadow: 0 45px 90px -20px rgba(0, 0, 0, 0.7),
+                0 0 0 1px rgba(212, 175, 55, 0.25);
 }
 
-.store-card h3 {
-    letter-spacing: -0.6px;
+/* Efeito de brilho no card */
+.store-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -100%;
+    width: 50%;
+    height: 200%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(212, 175, 55, 0.15),
+        transparent
+    );
+    transition: 0.6s;
 }
 
-/* ==================== ANIMAÇÕES ==================== */
+.store-card:hover::before {
+    left: 250%;
+}
+
+/* ==================== BOTÕES AVANÇADOS ==================== */
+.gold-btn, .whatsapp-btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.gold-btn:hover, .whatsapp-btn:hover {
+    transform: translateY(-4px) scale(1.02);
+}
+
+.gold-btn:active, .whatsapp-btn:active {
+    transform: scale(0.98);
+}
+
+/* Ripple effect */
+.gold-btn::after, .whatsapp-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.gold-btn:active::after, .whatsapp-btn:active::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* ==================== ANIMAÇÕES DE ENTRADA ==================== */
 .animate-fade-up {
     opacity: 0;
-    transform: translateY(60px);
-    animation: fadeUpLuxury 0.85s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    transform: translateY(70px);
+    animation: fadeUpAdvanced 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-@keyframes fadeUpLuxury {
+@keyframes fadeUpAdvanced {
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-/* ==================== BOTÕES ==================== */
-.gold-btn {
-    background-color: var(--gold);
-    color: #111111;
-    font-weight: 600;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 15px -2px rgba(212, 175, 55, 0.3);
+/* ==================== THREE.JS CONTAINER ==================== */
+#three-canvas {
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
-.gold-btn:hover {
-    background-color: var(--gold-light);
-    transform: translateY(-3px);
-    box-shadow: 0 15px 30px -10px rgba(212, 175, 55, 0.45);
-}
-
-.whatsapp-btn {
-    background-color: #25D366;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.whatsapp-btn:hover {
-    background-color: #20ba5a;
-    transform: translateY(-3px);
-    box-shadow: 0 15px 30px -10px rgba(37, 211, 102, 0.4);
-}
-
-/* ==================== TÍTULOS DE SEÇÃO ==================== */
-.section-title {
-    position: relative;
-    display: inline-block;
-}
-
-.section-title::after {
-    content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 0;
-    width: 60px;
-    height: 2px;
-    background: linear-gradient(to right, var(--gold), transparent);
-    border-radius: 2px;
+#three-canvas:hover {
+    transform: scale(1.015);
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.5);
 }
 
 /* ==================== MODAL ==================== */
 #map-modal {
-    animation: fadeInModal 0.3s ease forwards;
+    animation: modalEnter 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-@keyframes fadeInModal {
-    from { opacity: 0; }
-    to { opacity: 1; }
+@keyframes modalEnter {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
 }
 
 /* ==================== MENU MOBILE ==================== */
-#mobile-menu-panel {
-    box-shadow: -25px 0 60px rgba(0, 0, 0, 0.75);
-}
-
 .mobile-link {
-    padding: 18px 0;
-    transition: all 0.2s ease;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mobile-link:hover {
     color: var(--gold);
-    padding-left: 16px;
-}
-
-/* ==================== THREE.JS ==================== */
-#three-canvas {
-    touch-action: none;
-    box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.6);
+    transform: translateX(12px);
 }
