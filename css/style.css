@@ -1,50 +1,186 @@
-.filter-btn {
-    transition: all 0.2s ease;
-}
-.filter-btn.active {
-    background-color: #d4af37;
-    color: #0f0f0f;
-    border-color: #d4af37;
+/* ==================== VARIÁVEIS ==================== */
+:root {
+    --gold: #d4af37;
+    --gold-dark: #b8976e;
+    --bg-dark: #0f0f0f;
+    --bg-card: #1a1a1a;
+    --text-primary: #f5f5f5;
+    --text-secondary: #a1a1aa;
 }
 
+/* ==================== BASE ==================== */
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+h1, h2, h3 {
+    font-weight: 600;
+    letter-spacing: -0.025em;
+}
+
+/* ==================== NAVBAR ==================== */
+nav {
+    backdrop-filter: blur(20px);
+}
+
+.nav-link {
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: var(--gold);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--gold);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* ==================== FILTER BUTTONS ==================== */
+.filter-btn {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.filter-btn.active {
+    background-color: var(--gold);
+    color: #0f0f0f;
+    border-color: var(--gold);
+    box-shadow: 0 4px 14px 0 rgba(212, 175, 55, 0.2);
+}
+
+.filter-btn:hover:not(.active) {
+    background-color: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.2);
+}
+
+/* ==================== STORE CARDS - PREMIUM ==================== */
 .store-card {
+    background: linear-gradient(145deg, #1a1a1a, #161616);
+    border: 1px solid rgba(255,255,255,0.06);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    background: #1a1a1a;
-    border: 1px solid rgba(255,255,255,0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.store-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(212, 175, 55, 0.08),
+        transparent
+    );
+    transition: 0.6s;
+}
+
+.store-card:hover::before {
+    left: 200%;
 }
 
 .store-card:hover {
-    transform: translateY(-8px);
-    border-color: #d4af37;
-    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
+    transform: translateY(-10px);
+    border-color: var(--gold);
+    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(212, 175, 55, 0.1);
 }
 
+.store-card h3 {
+    letter-spacing: -0.5px;
+}
+
+/* ==================== ANIMAÇÕES ==================== */
 .animate-fade-up {
     opacity: 0;
-    transform: translateY(30px);
-    animation: fadeUp 0.6s forwards;
+    transform: translateY(40px);
+    animation: fadeUpPremium 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-@keyframes fadeUp {
+@keyframes fadeUpPremium {
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-#three-canvas {
-    touch-action: none;
+/* ==================== BOTÕES ==================== */
+.gold-btn {
+    background-color: var(--gold);
+    color: #0f0f0f;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
-/* Menu Mobile */
+.gold-btn:hover {
+    background-color: #c5a05e;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 15px -3px rgb(212 175 55 / 0.3);
+}
+
+.whatsapp-btn {
+    background-color: #25D366;
+    transition: all 0.3s ease;
+}
+
+.whatsapp-btn:hover {
+    background-color: #20ba5a;
+    transform: translateY(-1px);
+}
+
+/* ==================== MODAL ==================== */
+#map-modal {
+    animation: fadeInModal 0.2s ease forwards;
+}
+
+@keyframes fadeInModal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ==================== MENU MOBILE ==================== */
 #mobile-menu-panel {
-    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    box-shadow: -15px 0 40px rgba(0, 0, 0, 0.6);
 }
 
 .mobile-link {
-    padding: 12px 0;
-    transition: color 0.2s ease;
+    padding: 14px 0;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
 }
+
+.mobile-link:last-child {
+    border-bottom: none;
+}
+
 .mobile-link:hover {
-    color: #d4af37;
+    color: var(--gold);
+    padding-left: 8px;
+}
+
+/* ==================== SEÇÕES ==================== */
+section {
+    scroll-margin-top: 80px;
+}
+
+/* ==================== THREE.JS CANVAS ==================== */
+#three-canvas {
+    touch-action: none;
+    border-radius: 24px;
 }
